@@ -1,4 +1,4 @@
-package com.github.kotlin.base
+package base
 
 /**
  * First

@@ -1,6 +1,6 @@
-package com.github.kotlin.base
+package base
 
-import com.github.kotlin.base.Second.Human.*
+import base.Second.Human.*
 
 /**
  * Second
