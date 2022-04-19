@@ -1,5 +1,7 @@
 package base.calculator
 
+import kotlin.system.exitProcess
+
 /**
  * One1
  *
@@ -22,7 +24,7 @@ class JavaStyle {
             if (input == null) continue
 
             // 第二步，判断命令是不是exit，如果是则直接退出程序；
-            if (input == "exit") continue
+            if (input == "exit") exitProcess(0)
 
             // 第三步，解析算式，分解出“数字”与“操作符”：“1”“+”“2”；
             var inputList = input.split(" ")

@@ -1,5 +1,7 @@
 package base.calculator
 
+import kotlin.system.exitProcess
+
 /**
  * One
  *
@@ -28,7 +30,7 @@ class One {
             // 第一步，读取输入命令；
             val input = readLine() ?: continue
             // 第二步，判断命令是不是exit，如果是则直接退出程序；
-            if (input == "exit") continue
+            if (input == "exit") exitProcess(0)
 
             // 第三步，解析算式，分解出“数字”与“操作符”：“1”“+”“2”；
             val inputList = input.split(" ")
