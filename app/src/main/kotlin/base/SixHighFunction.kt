@@ -1,5 +1,8 @@
 package base
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.view.View
 /**
  * author : tiankang
@@ -123,6 +126,24 @@ class SixHighFunction {
         }
     }
 
+//    简化了页面跳转~
+    private val FRIEND_ID = "friendId"
+
+    fun goto(mContext: Context, userId: Long) {
+        mContext.goto<Activity> {
+            putExtra(FRIEND_ID, userId)
+        }
+    }
+
+    inline fun <reified T> Context.goto(block: Intent.() -> Unit) {
+        this.startActivity(intent<T>(this, block))
+    }
+
+    inline fun <reified T> intent(mContext: Context, block: Intent.() -> Unit): Intent {
+        val intent = Intent(mContext, T::class.java)
+        intent.block()
+        return intent
+    }
 
 }
 
