@@ -4,7 +4,7 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetEnd="@+id/delete"
         motion:constraintSetStart="@id/start"
         motion:duration="1000"
         motion:motionInterpolator="cubic(1,0,0,1)"
@@ -27,7 +27,7 @@
             motion:layout_constraintHorizontal_bias="0.0" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
+    <ConstraintSet android:id="@+id/delete">
         <Constraint
             android:id="@+id/view"
             motion:layout_constraintEnd_toEndOf="parent"
