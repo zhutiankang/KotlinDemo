@@ -6,7 +6,7 @@ import base.Second.Human.*
  * Second
  *
  * @author tiankang
- * @description:
+ * @description: 继承
  * @date :2022/1/18 11:14
  */
 class Second {
@@ -21,6 +21,7 @@ class Second {
                 // do something else
                 return age >= 18
             }
+        //在写 setter/getter 的时候使⽤ field 来代替内部的私有属性
         var age2: Int = 0
             private set(value) {
                 //log()
@@ -29,6 +30,7 @@ class Second {
             }
     }
 
+    //继承类和实现接⼝都是⽤的 : ，如果类中没有构造器 ( constructor )，需要在⽗类类名后⾯加上 () ：
     //抽象类 && 标记为open的类或者方法 才可以被继承或者重写
     abstract class Cat(val color: String) {
         abstract fun eat()
@@ -118,6 +120,13 @@ class Second {
     }
 
     //密封类 不一样的对象引用
+    // Success 这个数据类的泛型参数使用了 out 来修饰，这就代表了协变。看到这里，如果你足够细心，
+    // 就会觉得奇怪：这里为什么可以使用协变呢？前面我们不是说过：“泛型作为参数，用 in；泛型作为返回值，用 out”吗？
+    // 这里并没有任何函数参数或者返回值啊？其实，这里就又体现出了我们对 Kotlin 底层理解的重要性了。
+    // 请注意我在上面标记的注释①，val 在 Kotlin 当中，代表不可变的变量，当它修饰类成员属性的时候，
+    // 代表它只有 getter，没有 setter
+//    改为var后，编译器就会立马报错 getter 和 setter，这个时候泛型参数既是“参数”也是“返回值
+//    如果泛型的 T，既是函数的参数类型，又是函数的返回值类型，那么，我们就无法直接使用 in 或者 out 来修饰泛型 T
     sealed class Result<out R> {
         data class Success<out T>(val data: T, val message: String = "") : Result<T>()
         data class Error<out T>(val exception: Exception) : Result<Nothing>()
@@ -141,4 +150,6 @@ class Second {
     private fun displaySuccessUI(data: Result<Man>) {
 
     }
+
+
 }

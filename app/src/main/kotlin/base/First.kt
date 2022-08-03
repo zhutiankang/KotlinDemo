@@ -167,8 +167,26 @@ class First {
         return if (text != null) text.length else 0
     }
 
-    //Elvis 表达式 ?.  安全调用符
+    //Elvis 表达式 ?.  安全调用符  !! 强⾏调⽤符
     fun getLength2(text: String?): Int {
         return text?.length ?: 0
     }
+    //Any Kotlin 的顶层⽗类是 Any ，对应 Java 当中的 Object ，但是⽐ Object 少了 wait()/notify() 等函数
+    //Unit Kotlin 中的 Unit 对应 Java 中的 void
+
+//    lateinit 只能修饰 var 可读可写变量(思考下为什么)
+//    lateinit 关键字声明的变量的类型必须是「不可空类型」
+//    lateinit 声明的变量不能有「初始值」
+//    lateinit 声明的变量不能是「基本数据类型」
+//    在构造器中初始化的属性不需要 lateinit 关键字
+
+//    类型判断
+//    is 判断属于某类型
+//    !is 判断不属于某类型
+//    as 类型强转，失败时抛出类型强转失败异常
+//    as? 类型强转，但失败时不会抛出异常⽽是返回 null
+
+//    获取 Class 对象
+//    使⽤ 类名::class 获取的是 Kotlin 的类型是 KClass
+//    使⽤ 类名::class.java 获取的是 Java 的类型
 }
