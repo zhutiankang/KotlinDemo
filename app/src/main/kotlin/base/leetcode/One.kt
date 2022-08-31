@@ -4,7 +4,7 @@ package base.leetcode
  * One
  *
  * @author tiankang
- * @description:
+ * @description: 怎么爽就怎么来
  * @date :2022/8/8 17:38
  */
 
@@ -28,7 +28,7 @@ fun mostCommonWord1(paragraph: String, banned: Array<String>) =
         }
         ?.key ?: throw IllegalArgumentException()
 
-// 冒泡排序
+// 冒泡排序 因为 Kotlin 当中的 Range 要求必须是右边不能小于左边，比如“1…3”是可以的，而“3…1”是不行的
 fun sort(array: IntArray): IntArray {
     for (end in (array.size - 1) downTo 1) {
         for (begin in 1..end) {
