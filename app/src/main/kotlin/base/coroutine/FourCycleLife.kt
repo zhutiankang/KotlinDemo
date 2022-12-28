@@ -25,9 +25,9 @@ import kotlin.system.measureTimeMillis
  * 所以，现在回过头来看，其实最重要的，还是用旧知识学新知识。希望我的方法能对你有所启发。
  */
 // launch、async 的时候，我们知道它们两个返回值类型分别是 Job 和 Deferred 不管是 launch 还是 async，它们本质上都会返回一个 Job 对象
-public interface Deferred<out T> : Job {
-    public suspend fun await(): T
-}
+//public interface Deferred<out T> : Job {
+//    public suspend fun await(): T
+//}
 //使用 Job 监测协程的生命周期状态；使用 Job 操控协程。
 
 //job.log()，其实就是在监测协程；job.cancel()，其实就是在操控协程。
