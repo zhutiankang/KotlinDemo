@@ -7,8 +7,9 @@ import java.util.concurrent.Executors
  * TenException
  *
  * @author tiankang
- * @description: 异常 协程就是互相协作的程序，协程是结构化的 而协程的结构化并发，最大的优势就在于：如果我们取消了父协程，子协程也会跟着被取消
+ * @description: 异常 协程就是互相协作的程序，协程是结构化的    而协程的结构化并发，最大的优势就在于：如果我们取消了父协程，子协程也会跟着被取消
  * 在 Kotlin 协程当中，异常主要分为两大类，一类是协程取消异常（CancellationException），另一类是其他异常。为了处理这两大类问题，我们一共总结出了 6 大准则，这些我们都要牢记在心
+ * 因为协程是“结构化的”，所以异常传播也是“结构化的”
  * 第一条准则：协程的取消需要内部的配合。
  * 第二条准则：不要轻易打破协程的父子结构！              这一点，其实不仅仅只是针对协程的取消异常，而是要贯穿于整个协程的使用过程中。我们知道，协程的优势在于结构化并发，它的许多特性都是建立在这个特性之上的，如果我们无意中打破了它的父子结构，就会导致协程无法按照预期执行。
  * 第三条准则：捕获了 CancellationException 以后，要考虑是否应该重新抛出来。   在协程体内部，协程是依赖于 CancellationException 来实现结构化取消的，有的时候我们出于某些目的需要捕获 CancellationException，但捕获完以后，我们还需要思考是否需要将其重新抛出来。
@@ -312,7 +313,6 @@ End
 */
 
 // 代码段15
-
 fun main115() = runBlocking {
     val scope = CoroutineScope(SupervisorJob())
     // 变化在这里
@@ -436,4 +436,10 @@ fun main119() = runBlocking {
 Exception in thread "main" ArithmeticException: / by zero
 
 CoroutineExceptionHandler 只在顶层的协程当中才会起作用。也就是说，当子协程当中出现异常以后，它们都会统一上报给顶层的父协程，然后顶层的父协程才会去调用 CoroutineExceptionHandler，来处理对应的异常。
+
+（1）Cancel依赖Cancel异常。
+（2）SupervisorJob重写了childCancelled=false，导致取消不会向上和兄弟传播。
+（3）异常的传播应该是先向上传播，然后都没人处理才会触发协程的CoroutineExceptionHandler，在触发全局默认的CoroutineExceptionHandler。
+（4）ExceptionHandler代替try catch不合理，无法清晰的对业务异常有一个认知，不知道是哪里来的，只能通用处理；同时我认为ExceptionHandler或者作为兜底策略也是合理的，
+子协程对自己的业务进行异常处理，同时顶层协程有一个兜底策略，上报后需要及时让子协程进行处理；这个问题就像Java线程要不要加UnCaughtExceptionHandler【协程也可以加默认的】。
 */
