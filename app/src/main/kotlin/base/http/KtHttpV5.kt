@@ -143,12 +143,12 @@ fun <T : Any> KtCall<T>.asFlow1(): Flow<T> = callbackFlow {
             cancel(CancellationException("Request fail!", throwable))
         }
     })
-
+//waitClose{} 的作用是响应协程的取消，同时取消 OkHttp 的请求
     awaitClose {
         call.cancel()
     }
 }
-
+//在大部分场景下 trySendBlocking() 会比 trySend() 更稳妥一些，因为它会尽可能发送成功。但在某些特殊情况下，trySend() 也有它的优势，因为它不会出现阻塞问题。
 fun <T : Any> KtCall<T>.asFlow(): Flow<T> = callbackFlow {
     val call = call(object : Callback<T> {
         override fun onSuccess(data: T) {

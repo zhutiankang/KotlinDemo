@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.*
  * 对于中间操作符来说，它也分为几大类。第一类是从集合“抄”过来的操作符，比如 map、filter；第二类是生命周期回调，比如 onStart、onCompletion；第三类是功能型 API，比如说 flowOn 切换 Context、catch 捕获上游的异常。
  * 对于下游的终止操作符，也是分为三大类。首先，就是 collect 这个最基础的终止操作符；其次，就是从集合 API“抄”过来的操作符，比如 fold、reduce；最后，就是 Flow 转换成集合的 API，比如说 flow.toList()。
  * @date :2022/12/27 17:14
+ * 对于 Flow 的上游、中间操作符而言，它们其实根本就不需要协程作用域，只有在下游调用 collect{} 的时候，才需要协程作用域。
  */
 
 // 代码段1

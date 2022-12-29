@@ -130,7 +130,7 @@ fun main() {
         .reposFlow(lang = "Kotlin", since = "weekly")
         .flowOn(Dispatchers.IO)
         .catch { println("Catch: $it") }
-
+//对于 Flow 的上游、中间操作符而言，它们其实根本就不需要协程作用域，只有在下游调用 collect{} 的时候，才需要协程作用域。
     runBlocking {
         // 协程作用域内
         flow.collect {
