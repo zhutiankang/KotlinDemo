@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
  * GitHubViewModel
  *
  * @author tiankang
- * @description: 表现层
+ * @description: 表现层 实体层 数据层 领域层
  * @date :2022/12/5 17:10
  */
 class GitHubViewModel(
