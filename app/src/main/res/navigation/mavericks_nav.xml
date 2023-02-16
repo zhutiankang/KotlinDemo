@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mavericks_nav"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.github.kotlin.mvi.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_articleListFragment"
+            app:destination="@id/articleListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleListFragment"
+        android:name="com.github.kotlin.mvi.articles.ArticleListFragment"
+        android:label="ArticleListFragment"
+        tools:layout="@layout/fragment_article_list">
+        <argument
+            android:name="args"
+            android:defaultValue="@null"
+            app:argType="com.github.kotlin.mvi.articles.Args"/>
+
+    </fragment>
+</navigation>

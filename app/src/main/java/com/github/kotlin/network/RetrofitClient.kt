@@ -1,6 +1,7 @@
 package com.github.kotlin.data
 
 import com.github.kotlin.data.entities.RepoList
+import com.github.kotlin.mvi.network.WanAndroidAPI
 import com.github.kotlin.network.moshi.NullStringAdapter
 import com.github.kotlin.network.service.RepoService
 import com.squareup.moshi.Moshi
@@ -24,6 +25,7 @@ object RetrofitClient {
 
     private const val TAG = "OkHttp"
     private const val BASE_URL = "https://github.com/trending/"
+    private const val BASE_URL_WAN = "https://www.wanandroid.com/"
     private const val TIME_OUT = 10
 
     val moshi: Moshi by lazy {
@@ -37,12 +39,18 @@ object RetrofitClient {
         getService(RepoService::class.java, BASE_URL)
     }
 
+    val wanService by lazy {
+        getService(WanAndroidAPI::class.java, BASE_URL_WAN)
+    }
+
     private val client: OkHttpClient by lazy {
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            })
         builder.build()
     }
 
