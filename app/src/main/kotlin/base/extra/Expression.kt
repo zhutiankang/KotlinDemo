@@ -20,7 +20,8 @@ Unit 与 Java 的 void 类型，代表一个函数不需要返回值，return；
 当 Nothing 作为函数参数的时候，就意味着这个函数永远无法被正常调用。这在泛型星投影的时候是有一定应用的。
 另外，Nothing 可以看作是“Nothing?”子类型，因此，
 
-Any?”是所有的 Kotlin 类型的父类，Nothing 则是所有类型的子类
+Any?”是所有的 Kotlin 类型的父类，Nothing 则是所有类型的子类 包括Unit
+
 
 Nothing 可以看作是 Kotlin 所有类型的底类型，子类
 正是因为 Kotlin 在类型系统当中，加入了 Unit、Nothing 这两个类型，才让大部分无法产生值的语句摇身一变，成为了表达式。
