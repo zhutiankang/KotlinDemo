@@ -24,6 +24,14 @@ import androidx.compose.ui.unit.dp
 import com.github.kotlin.R
 import com.github.kotlin.compose.ui.theme.KotlinDemoTheme
 
+/**
+ * 声明式 元素完全有传递给它们的参数控制
+ * 保证单一可信来源，没有其他状态需要保持同步的
+ * 所见即所得
+ * 参数改变 重新执行 Composable函数
+ * 保留变量 by remember
+ * 将逻辑上移到可信来源（参数）位置
+ */
 class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
