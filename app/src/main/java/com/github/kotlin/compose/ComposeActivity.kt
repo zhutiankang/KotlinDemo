@@ -31,6 +31,7 @@ import com.github.kotlin.compose.ui.theme.KotlinDemoTheme
  * 参数改变 重新执行 Composable函数
  * 保留变量 by remember
  * 将逻辑上移到可信来源（参数）位置
+ * modifier  有数十种修饰符可用于实现对齐、添加动画、设置布局、使可点击或可滚动以及转换等效果
  */
 class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

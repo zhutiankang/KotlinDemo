@@ -14,6 +14,17 @@
         android:theme="@style/Theme.KotlinDemo"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".compose.BasicLabActivity"
+            android:exported="true"
+            android:label="@string/title_activity_basic_lab"
+            android:theme="@style/Theme.KotlinDemo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".mvi.MVIMainActivity"
             android:exported="true">
             <intent-filter>
@@ -21,7 +32,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".compose.ComposeActivity"

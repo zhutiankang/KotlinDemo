@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">KotlinDemo</string>
     <string name="title_activity_compose">ComposeActivity</string>
+    <string name="title_activity_basic_lab">BasicLabActivity</string>
+    <string name="show_less">Show less</string>
+    <string name="show_more">Show more</string>
 </resources>
