@@ -11,7 +11,9 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.*
@@ -22,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
@@ -220,5 +223,47 @@ fun onBoardingPreview() {
     BasicsCodelabTheme {
         // 将 onContinueClicked 分配给空 lambda 表达式就等于“什么也不做”，这非常适合于预览。
         onBoardingScreen(onContinueClicked = {})
+    }
+}
+
+@Composable
+fun InputBox() {
+    var text by remember { mutableStateOf("") }
+    TextField(
+        value = text,
+        onValueChange = { newValue ->
+            // 正则表达式校验只允许输入非中文字符
+            if (newValue.matches(Regex("^[^\\u4e00-\\u9fa5]*$"))) {
+                text = newValue
+            }
+        },
+        label = { Text(text = "我是输入框") },
+        colors = TextFieldDefaults.textFieldColors(
+            cursorColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+        singleLine = true
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        // 删除按钮
+        IconButton(onClick = { text = "" }) {
+            Icon(
+                imageVector = Icons.Default.Clear,
+                contentDescription = "Clear text"
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun MyAppPreview2() {
+    BasicsCodelabTheme {
+        InputBox()
     }
 }

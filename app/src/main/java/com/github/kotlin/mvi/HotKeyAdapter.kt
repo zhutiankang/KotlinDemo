@@ -1,49 +1,71 @@
 package com.github.kotlin.mvi
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.github.kotlin.R
+import com.github.kotlin.databinding.ItemArticleBinding
 import com.github.kotlin.databinding.ItemHotKeyBinding
 import com.github.kotlin.mvi.data.HotKey
+import com.github.kotlin.ui.adapter.BaseRecyclerAdapter
+import com.github.kotlin.ui.adapter.BaseViewHolder
 
 /**
  * HotKeyAdapter
  *
  * @author tiankang
- * @description:
+ * @description: 多布局尝试
  * @date :2023/2/16 10:38
  */
-class BindViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root)
+class HotKeyAdapter(dataList: List<HotKey>) :
+    BaseRecyclerAdapter<HotKey>(dataList) {
+//    private val LAYOUT_KEY = 123
+//    private val LAYOUT_ARTICLE = 456
+    override fun onBindData(holder: BaseViewHolder, position: Int) {
+//        val title = dataList.getOrNull(position)?.name ?: "null"
+//        when (holder.binding) {
+//            is ItemHotKeyBinding ->
+//                holder.binding.title.text = title
+//
+//            is ItemArticleBinding ->
+//                holder.binding.chapter.text = title
+//        }
 
-class HotKeyAdapter(private val itemClick: (String) -> Unit) :
-    ListAdapter<HotKey, BindViewHolder>(HashItemCallback()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindViewHolder {
-        return BindViewHolder(
-            ItemHotKeyBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-    }
-
-    override fun onBindViewHolder(holder: BindViewHolder, position: Int) {
         val binding = holder.binding as ItemHotKeyBinding
-        binding.title.text = getItem(position).name
-        binding.root.setOnClickListener {
-            itemClick.invoke(getItem(position).name)
-        }
+        binding.title.text = dataList.getOrNull(position)?.name ?: "null"
     }
 
-}
+    override fun onGenerateLayout(parent: ViewGroup, viewType: Int): ViewBinding {
 
-class HashItemCallback : DiffUtil.ItemCallback<HotKey>() {
-    override fun areItemsTheSame(oldItem: HotKey, newItem: HotKey) = oldItem.id == newItem.id
+//        return when (viewType) {
+//            LAYOUT_KEY -> ItemHotKeyBinding.inflate(
+//                LayoutInflater.from(parent.context),
+//                parent,
+//                false
+//            )
+//
+//            else -> ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//        }
 
-    override fun areContentsTheSame(oldItem: HotKey, newItem: HotKey) =
-        oldItem.hashCode() == newItem.hashCode()
+        return ItemHotKeyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    }
+
+    override fun onCreateLayoutManager(context: Context): RecyclerView.LayoutManager {
+        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
+//    override fun getItemViewType(position: Int): Int {
+//        return when (position) {
+//            0 -> LAYOUT_KEY
+//            else -> LAYOUT_ARTICLE
+//        }
+//    }
+
 
 }

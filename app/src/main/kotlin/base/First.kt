@@ -189,4 +189,14 @@ class First {
 //    获取 Class 对象
 //    使⽤ 类名::class 获取的是 Kotlin 的类型是 KClass
 //    使⽤ 类名::class.java 获取的是 Java 的类型
+
+    companion object {
+        //常量  static final String str = "hello"
+        // const 只能在object中使用  val final 不可变
+        const val str = "hello"
+    }
+
+    //val 是只读的意味着 在运行时已知的不可变  final
+    // var 是可变的，在运行时已知
+    // const 是不可变的，并且是在编译时已知的变量 static  不可赋值函数，函数需要运行时执行，而不是编译时
 }

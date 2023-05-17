@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -101,4 +103,8 @@ dependencies {
     // Add the annotation processor if you are using Epoxy's annotations (recommended)
     annotationProcessor "com.airbnb.android:epoxy-processor:5.1.1"
     implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.6'
+
+    // Hilt dependencies
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }

@@ -49,7 +49,7 @@ object RetrofitClient {
             .readTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(TIME_OUT.toLong(), TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().apply {
-                setLevel(HttpLoggingInterceptor.Level.BODY)
+                level = HttpLoggingInterceptor.Level.BODY
             })
         builder.build()
     }

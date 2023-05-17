@@ -1,8 +1,11 @@
 package com.github.kotlin.mvi
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,13 +19,11 @@ import com.airbnb.mvrx.withState
 import com.github.kotlin.R
 import com.github.kotlin.databinding.FragmentMainBinding
 import com.github.kotlin.mvi.articles.Args
-import com.github.kotlin.mvi.data.HotKey
 import com.google.android.material.snackbar.Snackbar
-import okhttp3.internal.notify
 import java.io.Serializable
 import kotlin.random.Random
 
-class MainFragment : Fragment(R.layout.fragment_main), MavericksView {
+class MainFragmentOld : Fragment(R.layout.fragment_main), MavericksView {
 
     private val mainViewModel: MainViewModel by fragmentViewModel()
 
@@ -30,11 +31,14 @@ class MainFragment : Fragment(R.layout.fragment_main), MavericksView {
 
     private val navViewMode: NavViewModel by navGraphViewModel(R.id.mavericks_nav)
 
-    private val dataList = mutableListOf<HotKey>()
-
-    private val adapter: HotKeyAdapter by lazy {
+    private val adapter: HotKeyAdapterOld by lazy {
         //参数是函数，高阶函数，可以lambda表达
-        HotKeyAdapter(dataList)
+        HotKeyAdapterOld {
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                navViewMode.incCount()
+                navigate(R.id.action_mainFragment_to_articleListFragment, Args(it))
+            }
+        }
     }
 
     private fun navigate(@IdRes id: Int, args: Serializable? = null) {
@@ -78,20 +82,6 @@ class MainFragment : Fragment(R.layout.fragment_main), MavericksView {
             }
 
         )
-//        adapter.setClickListener(object : OnItemClickListener{
-//            override fun onItemClick(position: Int) {
-//                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-//                    navViewMode.incCount()
-//                    navigate(R.id.action_mainFragment_to_articleListFragment, Args(datalist[position].name))
-//                }
-//            }
-//        })
-        adapter.setClickListener{
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                navViewMode.incCount()
-                navigate(R.id.action_mainFragment_to_articleListFragment, Args(dataList[it].name))
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,9 +102,7 @@ class MainFragment : Fragment(R.layout.fragment_main), MavericksView {
     override fun invalidate() {
         withState(mainViewModel) {
             binding.refresh.isRefreshing = !it.request.complete
-            dataList.clear()
-            dataList.addAll(if (Random.nextBoolean()) it.hotKeys.reversed() else it.hotKeys)
-            adapter.notifyDataSetChanged()
+            adapter.submitList(if (Random.nextBoolean()) it.hotKeys.reversed() else it.hotKeys)
         }
     }
 
