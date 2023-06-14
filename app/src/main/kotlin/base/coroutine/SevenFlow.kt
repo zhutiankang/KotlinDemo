@@ -222,8 +222,84 @@ onCompletion second: IllegalStateException    // 4
  * 不能用 catch 操作符了。那么最简单的办法，其实是使用 try-catch，把 collect{} 当中可能出现问题的代码包裹起来
  *
  * 针对 Flow 当中的异常处理，我们主要有两种手段：一个是 catch 操作符，它主要用于上游异常的捕获；而 try-catch 这种传统的方式，更多的是应用于下游异常的捕获。
+ *
+ * onCompletion 不能捕获异常，只能用于判断是否有异常
+ * catch 可以捕获异常,异常不捕获就会崩溃  catch 操作符可以捕获来自上游的异常 catch只捕获一次异常，后面的方法就不会调用了
+ *
  */
+fun main777() = runBlocking {
+    flow {
+        emit(1)
+        throw RuntimeException()
+    }.onCompletion { cause ->
+        if (cause != null)
+            println("Flow completed exceptionally")
+        else
+            println("Done")
+    }.collect { println(it) }
+}
 
+/**
+ * 1
+Flow completed exceptionally
+Exception in thread "main" java.lang.RuntimeException
+ */
+//catch 操作符可以捕获来自上游的异常 包括在上游的onCompletion里面抛出的
+
+fun main888() = runBlocking {
+    flow {
+        emit(1)
+        throw RuntimeException()
+    }
+        .onCompletion { cause ->
+            if (cause != null)
+                println("Flow completed exceptionally")
+            else
+                println("Done")
+        }
+        .catch{ println("catch exception") }
+        .collect { println(it) }
+}
+
+/**
+ * 1
+Flow completed exceptionally
+catch exception
+ */
+// onCompletion 放在catch的下面，则 catch 操作符捕获到异常后，异常就不会影响到下游 onCompletion就会收不到异常
+// catch 操作符用于实现异常透明化处理。例如在 catch 操作符内，可以使用 throw 再次抛出异常、可以使用 emit() 转换为发射值、可以用于打印或者其他业务逻辑的处理等等。
+// 对于 collect 内的异常，除了传统的 try...catch 之外，还可以借助 onEach 每次对应一个emit值 操作符。把业务逻辑放到 onEach 操作符内，在 onEach 之后是 catch 操作符，最后是 collect()。
+fun main666() = runBlocking {
+    flow {
+        emit(1)
+        throw RuntimeException()
+    }
+        .catch{ println("catch exception") }
+        .onCompletion { cause ->
+            if (cause != null)
+                println("Flow completed exceptionally")
+            else
+                println("Done")
+        }
+        .collect { println(it) }
+}
+
+//fun main667() = runBlocking<Unit> {
+//    flow {
+//        ......
+//    }
+//        .onEach {
+//            ......
+//        }
+//        .catch { ... }
+//        .collect()
+//}
+
+/**
+ * 1
+catch exception
+Done
+ */
 // 代码段8
 fun main707() = runBlocking {
     val flow = flow {
@@ -355,7 +431,7 @@ flow{}运行在DefaultDispatcher
 */
 
 
-// 代码段15 借助了 onEach{} 来实现类似 collect{} 的功能。同时我们在最后使用了 launchIn(scope)，把它上游的代码都分发到指定的线程当中。
+// 代码段15 借助了 onEach{} 来实现类似 collect{} 的功能。同时我们在最后使用了 launchIn(scope)，把它下游的代码都分发到指定的线程当中。
     val scope = CoroutineScope(mySingleDispatcher)
     flow.flowOn(Dispatchers.IO)
         .filter {

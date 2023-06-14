@@ -1,8 +1,12 @@
 package base.coroutine
 
+import android.os.Handler
+import android.os.Looper
 import kotlinx.coroutines.*
+import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.ThreadFactory
 
 /**
  * FiveContext
@@ -102,6 +106,19 @@ Thread:DefaultDispatcher-worker-1 @coroutine#1
 val mySingleDispatcher = Executors.newSingleThreadExecutor {
     Thread(it, "MySingleThread").apply { isDaemon = true }
 }.asCoroutineDispatcher()
+val scheduledExecutorService = Executors.newScheduledThreadPool(2)
+val scheduledExecutorService2 = Executors.newSingleThreadScheduledExecutor()
+//  scheduled线程池
+val scheduledExecutorService3 = Executors.newScheduledThreadPool(16) {
+    Thread(it, "MyScheduledThread")
+}
+// 主线程
+object MainThreadExecutor : Executor {
+    private val handler = Handler(Looper.getMainLooper())
+    override fun execute(command: Runnable) {
+        handler.post(command)
+    }
+}
 
 //                          变化在这里
 //                             ↓

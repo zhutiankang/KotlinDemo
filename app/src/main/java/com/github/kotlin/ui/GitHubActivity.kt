@@ -1,6 +1,7 @@
 package com.github.kotlin.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,13 +30,17 @@ class GitHubActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGitHubBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel.loadRepos()
+//        viewModel.loadRepos()
+        viewModel.getAppTag("J167")
         observeData()
     }
 
     private fun observeData() {
         viewModel.repos.observe(this) {
             display(it)
+        }
+        viewModel.repos3.observe(this) {
+            Log.d("TAG", "tag observeData: $it")
         }
     }
 
