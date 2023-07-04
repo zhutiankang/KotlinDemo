@@ -224,7 +224,7 @@ onCompletion second: IllegalStateException    // 4
  * 针对 Flow 当中的异常处理，我们主要有两种手段：一个是 catch 操作符，它主要用于上游异常的捕获；而 try-catch 这种传统的方式，更多的是应用于下游异常的捕获。
  *
  * onCompletion 不能捕获异常，只能用于判断是否有异常
- * catch 可以捕获异常,异常不捕获就会崩溃  catch 操作符可以捕获来自上游的异常 catch只捕获一次异常，后面的方法就不会调用了
+ * catch 可以捕获异常,异常不捕获就会崩溃  catch 操作符可以捕获来自上游的异常 包括在上游的onCompletion里面抛出的  catch只捕获一次异常，后面的方法就不会调用了
  *
  */
 fun main777() = runBlocking {
