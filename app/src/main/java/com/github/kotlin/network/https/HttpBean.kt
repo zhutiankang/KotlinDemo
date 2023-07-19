@@ -14,7 +14,9 @@ import kotlinx.android.parcel.Parcelize
 data class HttpBean<T>(
     var data: T?,
     var resultCode: Int,
-    var message: String
+    var message: String,
+//    @SerializedName(value = "statusCode", alternate = ["code", "resultCode"])
+//    var statusCode : Int,
 )
 data class Hotkey(
     var link: String?,
