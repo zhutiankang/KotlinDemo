@@ -1,5 +1,7 @@
 package base.coroutine
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.flow.*
@@ -640,3 +642,36 @@ fun main722() = runBlocking {
 输出结果
 IllegalStateException: Flow invariant is violated
 */
+
+// flatMapConcat 串行 上一个flow的值都 按顺序 流转到下一个Flow里面
+// flatMapMerge并行 上一个flow的值都 新开协程 流转到下一个Flow里面
+// 代码段24
+//private fun getTripList(day: String) {
+//    viewModelScope.launch {
+//        val tripListRequest = TripListRequest()
+//        DriveRepository.getTripList(tripListRequest)
+//            .onStart {
+//                logD(TAG, "getTripList onStart")
+//            }.catch {
+//                logD(TAG, "getTripList catch")
+//            }
+//            .flatMapConcat {
+//                Log.d(TAG, "getTripList:$it")
+//                _tripListData.value = it
+//                tripList.clear()
+//                tripList.addAll(it)
+//                if (hasData(day)) {
+//                    DriveRepository.getTripInfo(day)
+//                } else {
+//                    flowOf(null)
+//                }
+//            }.catch {
+//                logD(TAG, "getTripInfo catch")
+//            }.next {
+//                logD(TAG, "getTripInfo next $this")
+//            }
+//
+//    }
+//
+//    logD(TAG, "getTripList")
+//}
