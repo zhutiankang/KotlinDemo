@@ -104,6 +104,7 @@ class ProcessorV2 {
 
     //将 inline 用于修饰高阶函数
     //inline 的作用其实就是将 inline 函数当中的代码拷贝到调用处
+    //学习inline:https://time.geekbang.org/column/article/477295
     inline fun <T> Map<String, Int>.mapToList(transform: (Map.Entry<String, Int>) -> T): MutableList<T> {
         val list = mutableListOf<T>()
         for (entry in this) {
