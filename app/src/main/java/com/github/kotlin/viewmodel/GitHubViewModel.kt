@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import base.coroutine.EventManager
 import com.github.kotlin.domain.GetRepoListUseCase
 import com.github.kotlin.data.entities.RepoList
 import com.github.kotlin.data.entities.ResultX
@@ -16,6 +17,7 @@ import com.github.kotlin.network.https.Channel
 import com.github.kotlin.network.https.FlowMapper
 import com.github.kotlin.network.https.exception.ApiException
 import com.github.kotlin.network.https.next
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -46,6 +48,10 @@ class GitHubViewModel(
         get() = _repos3
 
     private val _repos3 = MutableLiveData<String>()
+
+    fun observeBluetooth(): Flow<String> = EventManager.getBluetoothFlow2()
+
+    fun observeNetwork(): Flow<String> = EventManager.getNetworkFlow()
 
     // Backing property to avoid state updates from other classes
 //    private val _uiState = MutableStateFlow(LatestNewsUiState.Success(emptyList()))

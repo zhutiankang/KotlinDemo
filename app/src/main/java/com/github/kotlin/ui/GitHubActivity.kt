@@ -54,6 +54,17 @@ class GitHubActivity : AppCompatActivity() {
         viewModel.repos3.observe(this) {
             Log.d("TAG", "tag observeData: $it")
         }
+
+        viewModel.observeBluetooth().onEach {
+            Log.d("TAG","observeBluetooth: $it")
+//            binding.tvBondContent.text = it
+        }.launchIn(lifecycleScope)
+
+
+        viewModel.observeNetwork().onEach {
+            Log.d("TAG","observeNetwork: $it")
+//            binding.tvWifiContent.text = it
+        }.launchIn(lifecycleScope)
     }
 
     private fun display(repoList: RepoList) {
